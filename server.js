@@ -15,7 +15,8 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://chatapp-io-2.onrender.com/" // ✅ your Vercel frontend
+      "http://localhost:10000",
+      "https://chatapp-io-2-frontend.vercel.app" // ✅ your Vercel frontend
     ],
     methods: ["GET", "POST"]
   }
@@ -24,7 +25,8 @@ const io = new Server(server, {
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://chatapp-io-2.onrender.com/"
+    "http://localhost:10000",
+    "https://chatapp-io-2-frontend.vercel.app"
   ]
 }));
 
