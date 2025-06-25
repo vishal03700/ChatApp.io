@@ -11,35 +11,46 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:10000",
-      "https://chatapp-io-2-frontend.vercel.app" // ✅ your Vercel frontend
-    ],
-    methods: ["GET", "POST"]
-  }
+// ✅ CORS origins list including both Vercel URLs
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:10000",
+  "https://chatapp-io-2-frontend.vercel.app",
+  "https://chat-app-io-one.vercel.app"
+];
+
+// ✅ Middleware: log incoming origin for debugging
+app.use((req, res, next) => {
+  console.log("Request origin:", req.headers.origin);
+  next();
 });
 
+// ✅ CORS middleware for Express
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:10000",
-    "https://chatapp-io-2-frontend.vercel.app"
-  ]
+  origin: allowedOrigins
 }));
 
 app.use(express.json());
 
+// ✅ Socket.IO server with matching CORS config
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST"]
+  }
+});
+
+// Data stores
 let messages = [];
 let users = new Map();
 let typingUsers = new Set();
 
+// Health check route
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running', timestamp: new Date() });
 });
 
+// Socket.IO logic
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
@@ -125,8 +136,8 @@ io.on('connection', (socket) => {
   });
 });
 
+// Start server
 const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
-  console.log(`Chat server running on port ${PORT}`);
-  console.log(`Socket.IO server ready for connections`);
+  console.log(`✅ Chat server running on port ${PORT}`);
 });
