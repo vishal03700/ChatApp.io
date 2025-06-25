@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const newSocket = io('http://localhost:3001');
+      const newSocket = io('http://localhost:10000');
       
       newSocket.on('connect', () => {
         setIsConnected(true);

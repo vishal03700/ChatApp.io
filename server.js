@@ -12,7 +12,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:3001"],
+    origin: ["http://localhost:5173", "http://localhost:10000"],
     methods: ["GET", "POST"]
   }
 });
@@ -126,7 +126,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
   console.log(`Chat server running on port ${PORT}`);
   console.log(`Socket.IO server ready for connections`);
