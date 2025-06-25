@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const newSocket = io('http://localhost:10000');
+      const newSocket = io('https://chatapp-io-2.onrender.com/');
       
       newSocket.on('connect', () => {
         setIsConnected(true);
